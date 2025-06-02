@@ -33,7 +33,10 @@ namespace QSoft.Apng
                     case ChunkTypes.IDAT:
                         {
                             IDAT idat = this.Chunks[i] as IDAT;
-                            mm.Write(idat.Data, 0, idat.Data.Length);
+                            if (idat != null)
+                            {
+                                mm.Write(idat.Data, 0, idat.Data.Length);
+                            }
                         }
                         break;
                     case ChunkTypes.fcTL:
@@ -75,8 +78,8 @@ namespace QSoft.Apng
                             MemoryStream ms = new MemoryStream();
                             PNG_Writer pngw_ = new PNG_Writer();
                             pngw_.Open(ms);
-                            ihdr.Width = lastfctl.Width;
-                            ihdr.Height = lastfctl.Height;
+                            ihdr.Width = lastfctl?.Width ?? 0;
+                            ihdr.Height = lastfctl?.Height ?? 0;
                             pngw_.WriteIHDR(ihdr);
                             if (plte != null)
                             {
